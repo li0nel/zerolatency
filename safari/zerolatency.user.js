@@ -18,7 +18,15 @@ function htmlToElement(html) {
   return template.content.firstChild;
 }
 
-var mailto = 'mailto:?subject=Your%20Zero%20Latency%20Gold%20Coast%20Photos&bcc=' + [].slice.call(document.getElementsByClassName('email js-email')).map(function(el){
+const validateEmail = (email) => {
+  return email.match(
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
+};
+
+var mailto = 'mailto:?subject=Your%20Zero%20Latency%20Gold%20Coast%20Photos&bcc=' + [].slice.call(document.getElementsByClassName('email js-email')).filter(function(el){
+    return validateEmail(el.value);
+}).map(function(el){
   return el.value;
 }).join(',')
 
